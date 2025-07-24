@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BG3 Miss Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .player {
+      background-color: #2e2e2e;
+      border-radius: 10px;
+      display: inline-block;
+      margin: 15px;
+      padding: 20px;
+      width: 280px;
+    }
+
+    .player h2 {
+      margin-bottom: 15px;
+    }
+
+    .counter-label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .counter {
+      font-size: 2em;
+      margin: 5px 0 10px;
+    }
+
+    button {
+      padding: 8px 15px;
+      font-size: 0.9em;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .miss-btn {
+      background-color: #ff4d4d;
+      color: white;
+    }
+
+    .crit-btn {
+      background-color: #ff9900;
+      color: white;
+    }
+
+    .reset-btn {
+      background-color: #666;
+      color: white;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Baldur's Gate 3 - Miss & Critical Miss Tracker</h1>
+
+  <div class="player">
+    <h2>William</h2>
+    <div class="counter-label">Misses</div>
+    <div class="counter" id="miss1">0</div>
+    <button class="miss-btn" onclick="increment('miss', 1)">Miss</button>
+
+    <div class="counter-label">Critical Misses</div>
+    <div class="counter" id="crit1">0</div>
+    <button class="crit-btn" onclick="increment('crit', 1)">Crit Miss</button>
+
+    <br><button class="reset-btn" onclick="reset(1)">Reset</button>
+  </div>
+
+  <div class="player">
+    <h2>David</h2>
+    <div class="counter-label">Misses</div>
+    <div class="counter" id="miss2">0</div>
+    <button class="miss-btn" onclick="increment('miss', 2)">Miss</button>
+
+    <div class="counter-label">Critical Misses</div>
+    <div class="counter" id="crit2">0</div>
+    <button class="crit-btn" onclick="increment('crit', 2)">Crit Miss</button>
+
+    <br><button class="reset-btn" onclick="reset(2)">Reset</button>
+  </div>
+
+  <div class="player">
+    <h2>Fredrik</h2>
+    <div class="counter-label">Misses</div>
+    <div class="counter" id="miss3">0</div>
+    <button class="miss-btn" onclick="increment('miss', 3)">Miss</button>
+
+    <div class="counter-label">Critical Misses</div>
+    <div class="counter" id="crit3">0</div>
+    <button class="crit-btn" onclick="increment('crit', 3)">Crit Miss</button>
+
+    <br><button class="reset-btn" onclick="reset(3)">Reset</button>
+  </div>
+
+  <script>
+    const misses = [0, 0, 0];
+    const crits = [0, 0, 0];
+
+    // Load saved data on page load
+    window.onload = function() {
+      for (let i = 1; i <= 3; i++) {
+        misses[i - 1] = parseInt(localStorage.getItem(`miss${i}`)) || 0;
+        crits[i - 1] = parseInt(localStorage.getItem(`crit${i}`)) || 0;
+        document.getElementById(`miss${i}`).innerText = misses[i - 1];
+        document.getElementById(`crit${i}`).innerText = crits[i - 1];
+      }
+    };
+
+    function increment(type, player) {
+      if (type === 'miss') {
+        misses[player - 1]++;
+        localStorage.setItem(`miss${player}`, misses[player - 1]);
+        document.getElementById(`miss${player}`).innerText = misses[player - 1];
+      } else if (type === 'crit') {
+        crits[player - 1]++;
+        localStorage.setItem(`crit${player}`, crits[player - 1]);
+        document.getElementById(`crit${player}`).innerText = crits[player - 1];
+      }
+    }
+
+    function reset(player) {
+      misses[player - 1] = 0;
+      crits[player - 1] = 0;
+      localStorage.setItem(`miss${player}`, 0);
+      localStorage.setItem(`crit${player}`, 0);
+      document.getElementById(`miss${player}`).innerText = 0;
+      document.getElementById(`crit${player}`).innerText = 0;
+    }
+  </script>
+</body>
+</html>
+
